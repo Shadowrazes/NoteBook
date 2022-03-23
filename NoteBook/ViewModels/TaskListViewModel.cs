@@ -12,17 +12,18 @@ namespace NoteBook.ViewModels
 {
     public class TaskListViewModel : ViewModelBase
     {
-        DateTime currentDate;
-        public TaskListViewModel()
+        DateTimeOffset? currentDate;
+        public TaskListViewModel(DateTime curDate)
         {
-            DateChanged = ReactiveCommand.Create<DateTime, DateTime>((date) => date);
+            DateChanged = ReactiveCommand.Create<DateTimeOffset?, DateTimeOffset?>((date) => CurrentDate = date);
+            CurrentDate = curDate;
         }
 
-        public ReactiveCommand<DateTime, DateTime> DateChanged { get; }
+        public ReactiveCommand<DateTimeOffset?, DateTimeOffset?> DateChanged { get; }
 
-        public DateTime CurrentDate
+        public DateTimeOffset? CurrentDate
         {
-            set => currentDate = value;
+            set => this.RaiseAndSetIfChanged(ref currentDate, value);
             get => currentDate;
         }
     }

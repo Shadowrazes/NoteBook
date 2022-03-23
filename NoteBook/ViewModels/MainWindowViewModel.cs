@@ -13,14 +13,14 @@ namespace NoteBook.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         ViewModelBase page;
-        DateTime currentDate = DateTime.Today;
+        DateTime currentDate;
         ObservableCollection<Note> noteList;
 
         Dictionary<DateTime, List<Note>> notes = new Dictionary<DateTime, List<Note>>() { { DateTime.Today, new List<Note>()
             {
-            new Note("task1", "desc1"),
-            new Note("task2", "desc2"),
-            new Note("task3", "desc3")
+                new Note("task1", "desc1"),
+                new Note("task2", "desc2"),
+                new Note("task3", "desc3")
             } } };
 
         public ObservableCollection<Note> NoteList 
@@ -47,20 +47,21 @@ namespace NoteBook.ViewModels
             set => this.RaiseAndSetIfChanged(ref currentDate, value);
             get => currentDate;
         }
+
         public MainWindowViewModel()
         {
-            Page = MainPage = new TaskListViewModel();
+            CurrentDate = DateTime.Today;
+            Page = MainPage = new TaskListViewModel(CurrentDate);
             NoteList = new ObservableCollection<Note>(notes[currentDate]);
             ObserveCommand = ReactiveCommand.Create<Note, int>((note) => openObservePage(note));
-            SetDateCommand = ReactiveCommand.Create<DateTime, DateTime>((date) => CurrentDate = date);
         }
 
         public ReactiveCommand<Note, int> ObserveCommand { get; }
         public ReactiveCommand<Note, int> DeleteCommand { get; }
-        public ReactiveCommand<DateTime, DateTime> SetDateCommand { get; }
         public void openAddPage()
         {
             var taskPage = new TaskViewModel(new Note("", ""));
+            currentDate = DateTime.Today.AddDays(2);
             Page = taskPage;
             Observable.Merge(taskPage.AddCommand, taskPage.CancelCommand).Take(1)
                 .Subscribe((note) =>
@@ -78,6 +79,20 @@ namespace NoteBook.ViewModels
                 });
         }
 
+        public void reset(Note selectedNote, Note note)
+        {
+            if (note.header != "")
+            {
+                selectedNote = note;
+            }
+            NoteList = new ObservableCollection<Note>(notes[currentDate]);
+            Page = MainPage;
+            foreach(var a in notes[currentDate])
+            {
+                var b = a;
+            }
+        }
+
         public int openObservePage(Note selectedNote)
         {
             var taskPage = new TaskViewModel(selectedNote);
@@ -91,6 +106,10 @@ namespace NoteBook.ViewModels
                     }
                     NoteList = new ObservableCollection<Note>(notes[currentDate]);
                     Page = MainPage;
+                    foreach (var a in notes[currentDate])
+                    {
+                        var b = a;
+                    }
                 });
             return 1;
         }
