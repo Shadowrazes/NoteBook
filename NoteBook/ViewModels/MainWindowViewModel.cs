@@ -13,24 +13,6 @@ namespace NoteBook.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         ViewModelBase page;
-        DateTime currentDate;
-        ObservableCollection<Note> noteList;
-
-        Dictionary<DateTime, List<Note>> notes = new Dictionary<DateTime, List<Note>>() { { DateTime.Today, new List<Note>()
-            {
-                new Note("task1", "desc1"),
-                new Note("task2", "desc2"),
-                new Note("task3", "desc3")
-            } } };
-
-        public ObservableCollection<Note> NoteList 
-        { 
-            get => noteList;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref noteList, value);
-            }
-        }
 
         public ViewModelBase Page
         {
@@ -42,55 +24,34 @@ namespace NoteBook.ViewModels
         {
             get;
         }
-        public DateTime CurrentDate
-        {
-            set => this.RaiseAndSetIfChanged(ref currentDate, value);
-            get => currentDate;
-        }
 
         public MainWindowViewModel()
         {
-            CurrentDate = DateTime.Today;
-            Page = MainPage = new TaskListViewModel(CurrentDate);
-            NoteList = new ObservableCollection<Note>(notes[currentDate]);
+            Page = MainPage = new TaskListViewModel();
             ObserveCommand = ReactiveCommand.Create<Note, int>((note) => openObservePage(note));
+            DeleteCommand = ReactiveCommand.Create<Note, int>((note) => deleteNote(note));
         }
-
         public ReactiveCommand<Note, int> ObserveCommand { get; }
         public ReactiveCommand<Note, int> DeleteCommand { get; }
+
         public void openAddPage()
         {
             var taskPage = new TaskViewModel(new Note("", ""));
-            currentDate = DateTime.Today.AddDays(2);
             Page = taskPage;
             Observable.Merge(taskPage.AddCommand, taskPage.CancelCommand).Take(1)
                 .Subscribe((note) =>
                 {
                     if(note.header != "")
                     {
-                        bool added = notes.TryAdd(CurrentDate, new List<Note> { note });
+                        bool added = MainPage.Notes.TryAdd(MainPage.CurrentDate, new List<Note> { note });
                         if (!added)
                         {
-                            notes[CurrentDate].Add(note);
+                            MainPage.Notes[MainPage.CurrentDate].Add(note);
                         }
                     }
-                    NoteList = new ObservableCollection<Note>(notes[currentDate]);
+                    MainPage.NoteList = new ObservableCollection<Note>(MainPage.Notes[MainPage.CurrentDate]);
                     Page = MainPage;
                 });
-        }
-
-        public void reset(Note selectedNote, Note note)
-        {
-            if (note.header != "")
-            {
-                selectedNote = note;
-            }
-            NoteList = new ObservableCollection<Note>(notes[currentDate]);
-            Page = MainPage;
-            foreach(var a in notes[currentDate])
-            {
-                var b = a;
-            }
         }
 
         public int openObservePage(Note selectedNote)
@@ -102,15 +63,19 @@ namespace NoteBook.ViewModels
                 {
                     if (note.header != "")
                     {
-                        selectedNote = note;
+                        selectedNote.Header = note.Header;
+                        selectedNote.Description = note.Description;
                     }
-                    NoteList = new ObservableCollection<Note>(notes[currentDate]);
+                    MainPage.NoteList = new ObservableCollection<Note>(MainPage.Notes[MainPage.CurrentDate]);
                     Page = MainPage;
-                    foreach (var a in notes[currentDate])
-                    {
-                        var b = a;
-                    }
                 });
+            return 1;
+        }
+
+        public int deleteNote(Note selectedNote)
+        {
+            MainPage.Notes[MainPage.CurrentDate].Remove(selectedNote);
+            MainPage.NoteList = new ObservableCollection<Note>(MainPage.Notes[MainPage.CurrentDate]);
             return 1;
         }
     }

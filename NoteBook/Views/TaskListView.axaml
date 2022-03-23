@@ -14,7 +14,7 @@
 	<Grid Classes="NoteBook" ShowGridLines="True" ColumnDefinitions="*" RowDefinitions="50, *, 50">
 		<DatePicker Name="DateP" SelectedDate="{Binding CurrentDate}" Classes="Date" Grid.Row="0" Grid.Column="0"/>
 		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="0">
-			<ItemsControl Name="TaskList" Items="{Binding $parent[Window].DataContext.NoteList}">
+			<ItemsControl Name="TaskList" Items="{Binding NoteList}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Grid Classes="Note" ShowGridLines="True" ColumnDefinitions="*, 50, 50" RowDefinitions="*">
