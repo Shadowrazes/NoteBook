@@ -16,15 +16,21 @@
 			<ItemsControl Name="TaskList" Classes="List">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Grid Classes="Note" ColumnDefinitions="*, 50, 50" RowDefinitions="*">
-							<TextBlock Name="TaskHeader" Classes="gridTextBlock"/>
-							<Button Name="Observe" Classes="gridBtn">
-								<Image Name="Lens" Classes="Img"/>
-							</Button>
-							<Button Name="Delete" Classes="gridBtn">
-								<Image Name="Trash" Classes="Img"/>
-							</Button>
-						</Grid>
+						<Border Classes="NotesWrapper">
+							<Grid Classes="Note" ColumnDefinitions="*, 50, 50" RowDefinitions="*">
+								<TextBlock Name="TaskHeader" Classes="gridTextBlock"/>
+								<Border Name="ObserveBorder" Classes="ButtonBorder">
+									<Button Name="Observe" Classes="gridBtn">
+										<Image Name="Lens" Classes="Img"/>
+									</Button>
+								</Border>
+								<Border Name="DeleteBorder" Classes="ButtonBorder">
+									<Button Name="Delete" Classes="gridBtn">
+										<Image Name="Trash" Classes="Img"/>
+									</Button>
+								</Border>
+							</Grid>
+						</Border>
 					</DataTemplate>
 					
 				</ItemsControl.ItemTemplate>

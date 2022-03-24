@@ -29,6 +29,7 @@
 
 	<Style Selector="TextBlock.gridTextBlock">
 		<Setter Property="TextAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="FontSize" Value="20"/>
 	</Style>
 
@@ -38,14 +39,10 @@
 
 	<Style Selector="Button#Observe">
 		<Setter Property="Command" Value="{Binding $parent[Window].DataContext.ObserveCommand}"/>
-		<Setter Property="Grid.Row" Value="0"/>
-		<Setter Property="Grid.Column" Value="1"/>
 	</Style>
 	
 	<Style Selector="Button#Delete">
 		<Setter Property="Command" Value="{Binding $parent[Window].DataContext.DeleteCommand}"/>
-		<Setter Property="Grid.Row" Value="0"/>
-		<Setter Property="Grid.Column" Value="2"/>
 	</Style>
 
 	<Style Selector="Button#AddTask">
@@ -95,7 +92,29 @@
 	</Style>
 
 	<Style Selector="Image#Append">
-		<Setter Property="Source" Value="/Assets/add.ico"/>
+		<Setter Property="Source" Value="/Assets/add.ico"/> 
+	</Style>
+
+	<Style Selector="Border.NotesWrapper">
+		<Setter Property="BorderBrush" Value="SeaGreen"/>
+		<Setter Property="BorderThickness" Value="2"/>
+		<Setter Property="CornerRadius" Value="3"/>
+		<Setter Property="Margin" Value="5"/>
+	</Style>
+
+	<Style Selector="Border.ButtonBorder">
+		<Setter Property="BorderBrush" Value="Red"/>
+		<Setter Property="BorderThickness" Value="2"/>
+	</Style>
+
+	<Style Selector="Border#ObserveBorder">
+		<Setter Property="Grid.Row" Value="0"/>
+		<Setter Property="Grid.Column" Value="1"/>
+	</Style>
+
+	<Style Selector="Border#DeleteBorder">
+		<Setter Property="Grid.Row" Value="0"/>
+		<Setter Property="Grid.Column" Value="2"/>
 	</Style>
 
 	<!-- TaskView-->
