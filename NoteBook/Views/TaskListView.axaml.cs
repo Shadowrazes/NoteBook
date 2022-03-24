@@ -14,12 +14,11 @@ namespace NoteBook.Views
             InitializeComponent();
             this.FindControl<DatePicker>("DateP").SelectedDateChanged += delegate
             {
-                DateTimeOffset? a = this.FindControl<DatePicker>("DateP").SelectedDate;
+                DateTimeOffset? selectedDate = this.FindControl<DatePicker>("DateP").SelectedDate;
                 var context = this.DataContext as TaskListViewModel;
                 if (context != null)
-                    context.CurrentDate = a;
+                    context.CurrentDate = selectedDate;
             };
-            //this.FindControl<DatePicker>("DateP").SelectedDate = DateTime.Today;
         }
 
         private void InitializeComponent()

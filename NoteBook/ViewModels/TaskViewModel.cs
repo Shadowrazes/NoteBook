@@ -15,9 +15,14 @@ namespace NoteBook.ViewModels
         string description;
         public TaskViewModel(Note note)
         {
+            var recordPossible = this.WhenAnyValue(
+                    record => record.Header,
+                    record => !string.IsNullOrWhiteSpace(record)
+                );
+
             Header = note.header;
             Description = note.description;
-            AddCommand = ReactiveCommand.Create(() => new Note(Header, Description));
+            AddCommand = ReactiveCommand.Create(() => new Note(Header, Description), recordPossible);
             CancelCommand = ReactiveCommand.Create(() => new Note("", ""));
         }
 

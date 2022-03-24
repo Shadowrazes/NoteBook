@@ -28,13 +28,13 @@ namespace NoteBook.ViewModels
         public MainWindowViewModel()
         {
             Page = MainPage = new TaskListViewModel();
-            ObserveCommand = ReactiveCommand.Create<Note, int>((note) => openObservePage(note));
-            DeleteCommand = ReactiveCommand.Create<Note, int>((note) => deleteNote(note));
+            ObserveCommand = ReactiveCommand.Create<Note, int>((note) => OpenObservePage(note));
+            DeleteCommand = ReactiveCommand.Create<Note, int>((note) => DeleteNote(note));
         }
         public ReactiveCommand<Note, int> ObserveCommand { get; }
         public ReactiveCommand<Note, int> DeleteCommand { get; }
 
-        public void openAddPage()
+        public void OpenAddPage()
         {
             var taskPage = new TaskViewModel(new Note("", ""));
             Page = taskPage;
@@ -54,7 +54,7 @@ namespace NoteBook.ViewModels
                 });
         }
 
-        public int openObservePage(Note selectedNote)
+        public int OpenObservePage(Note selectedNote)
         {
             var taskPage = new TaskViewModel(selectedNote);
             Page = taskPage;
@@ -72,7 +72,7 @@ namespace NoteBook.ViewModels
             return 1;
         }
 
-        public int deleteNote(Note selectedNote)
+        public int DeleteNote(Note selectedNote)
         {
             MainPage.Notes[MainPage.CurrentDate].Remove(selectedNote);
             MainPage.NoteList = new ObservableCollection<Note>(MainPage.Notes[MainPage.CurrentDate]);

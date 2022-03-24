@@ -23,7 +23,7 @@ namespace NoteBook.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref currentDate, value);
-                bool added = notes.TryAdd(CurrentDate, new List<Note> {});
+                notes.TryAdd(CurrentDate, new List<Note> {});
                 NoteList = new ObservableCollection<Note>(notes[currentDate]);
             }
             get => currentDate;
