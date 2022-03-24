@@ -8,8 +8,8 @@ namespace NoteBook.Models
 {
     public class Note
     {
-        public string header;
-        public string description;
+        string header;
+        string description;
 
         public Note(string header_, string description_)
         {

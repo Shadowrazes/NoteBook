@@ -41,7 +41,7 @@ namespace NoteBook.ViewModels
             Observable.Merge(taskPage.AddCommand, taskPage.CancelCommand).Take(1)
                 .Subscribe((note) =>
                 {
-                    if(note.header != "")
+                    if(note.Header != "")
                     {
                         bool added = MainPage.Notes.TryAdd(MainPage.CurrentDate, new List<Note> { note });
                         if (!added)
@@ -61,7 +61,7 @@ namespace NoteBook.ViewModels
             Observable.Merge(taskPage.AddCommand, taskPage.CancelCommand).Take(1)
                 .Subscribe((note) =>
                 {
-                    if (note.header != "")
+                    if (note.Header != "")
                     {
                         selectedNote.Header = note.Header;
                         selectedNote.Description = note.Description;

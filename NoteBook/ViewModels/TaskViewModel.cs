@@ -20,8 +20,8 @@ namespace NoteBook.ViewModels
                     record => !string.IsNullOrWhiteSpace(record)
                 );
 
-            Header = note.header;
-            Description = note.description;
+            Header = note.Header;
+            Description = note.Description;
             AddCommand = ReactiveCommand.Create(() => new Note(Header, Description), recordPossible);
             CancelCommand = ReactiveCommand.Create(() => new Note("", ""));
         }
